@@ -1,26 +1,30 @@
-# process.stdin bug report:
+# process SIGWINCH bug report:
 
 On Windows 11...
 
-Using Bun to run this code and pressing Tab followed by Shift + Tab will result in the following output:
+Using Bun to run this code and resizing the terminal window will not result in any output.
+
+Using Node.js v22.19 (current LTS) to run this code and resizing the terminal window will result in the following output:
 
 ```
-Received key: "\t"
-Received key: "\t"
+SIGWINCH 130 36
+SIGWINCH 131 36
+SIGWINCH 132 36
+SIGWINCH 133 36
+SIGWINCH 134 37
+SIGWINCH 135 37
+...
 ```
 
-Using Node.js v22.19 (current LTS) to run this code and pressing Tab followed by Shift + Tab will result in the following output:
+Using Bun on WSL to run this code also produces the correct output:
 
 ```
-Received key: "\t"
-Received key: "\u001b[Z"
-```
-
-This bug also is not present when run using Bun on WSL 2. That output is:
-
-```
-Received key: "\t"
-Received key: "\u001b[Z"
+SIGWINCH 145 37
+SIGWINCH 145 37
+SIGWINCH 146 37
+SIGWINCH 146 38
+SIGWINCH 147 38
+...
 ```
 
 ## How to run
